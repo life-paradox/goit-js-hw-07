@@ -16,6 +16,9 @@ const items = galleryItems.map(option => {
   return galleryItem;
 });
 
-var lightbox = new SimpleLightbox('.gallery a', { captions: false });
+var lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
 
 console.log(galleryItems);
