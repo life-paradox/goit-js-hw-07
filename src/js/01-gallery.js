@@ -2,30 +2,35 @@ import { galleryItems } from './gallery-items.js';
 // Change code below this line
 const gallery = document.querySelector('.gallery');
 
-const items = galleryItems.map(option => {
-  const galleryItem = document.createElement(`div`);
-  galleryItem.classList.add('gallery__item');
-  galleryItem.insertAdjacentHTML(
-    'beforeend',
-    `<a class="gallery__link" href="${option.original}">
-    <img
-      class="gallery__image"
-      src="${option.preview}"
-      data-source="${option.original}"
-      alt="${option.description}"
-    />
-  </a>`
-  );
-  return galleryItem;
-});
+function createGalleryCards(array) {
+  return array
+    .map(({ preview, original, description }) => {
+      return `<div class="gallery__item">
+      <a class="gallery__link" href="${original}">
+        <img
+          class="gallery__image"
+          src="${preview}"
+          data-source="${original}"
+          alt="${description}"
+        />
+      </a>
+      </div>
+      `;
+    })
+    .join('');
+}
 
-gallery.append(...items);
+gallery.insertAdjacentHTML('beforeend', createGalleryCards(galleryItems));
 
 gallery.addEventListener('click', onItemGallery);
 
 function onItemGallery(event) {
   event.preventDefault();
 
+  if (!event.target.classList.contains('gallery__image')) {
+    return;
+  }
+  console.log(event.target);
   const modal = basicLightbox.create(`
     <img src="${event.target.dataset.source}" width="1280" >
 `);
